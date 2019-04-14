@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class xyzButton extends JButton {
+	private String btnName;
+
 	public xyzButton(String buttonName,
 			ImageIcon icon,
 			int x,
@@ -14,6 +16,8 @@ public class xyzButton extends JButton {
 			int width,
 			int height) {
 		super();
+		btnName = buttonName;
+
 		this.setBounds(x, y, width, height);
 		this.setIcon(icon);
 		this.setPreferredSize(new Dimension(40, 40)); // size of the buttons
@@ -25,32 +29,38 @@ public class xyzButton extends JButton {
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				resetButtonColor();
-				xyzButton.this.setBackground(Color.lightGray);
+				xyzButton.this.setBackground(Color.gray);
+				main.selectedBtnName = xyzButton.this.btnName;
 			}
 		});
 	}
 
-	public component addInstance(xyzButton btn) {
-		String btnName = btn.getText();
-		switch (btnName) {
-		case "select":
-			return null;
-		case "association_line":
-			return new association_line();
-		case "generation_line":
-			return new generation_line();
-		case "composition_line":
-			return new composition_line();
-		case "classes":
-			return new classes();
-		case "use_case":
-			return new use_case();
-		default:
-			return null;
-		}
-	}
+//	private component addInstance(xyzButton btn) {
+//		switch (btn.btnName) {
+//		case "select":
+//			main.selectedBtnIndex = 0;
+//			return null;
+//		case "association line":
+//			main.selectedBtnIndex = 1;
+//			return new association_line();
+//		case "generation line":
+//			main.selectedBtnIndex = 2;
+//			return new generation_line();
+//		case "composition line":
+//			main.selectedBtnIndex = 3;
+//			return new composition_line();
+//		case "classes":
+//			main.selectedBtnIndex = 4;
+//			return new classes();
+//		case "use case":
+//			main.selectedBtnIndex = 5;
+//			return new use_case();
+//		default:
+//			return null;
+//		}
+//	}
 
-	public void resetButtonColor() {
+	private void resetButtonColor() {  // reset color of all buttons when one is clicked
 		for (int i = 0; i < main.sideButtonNum; i++) {
 			main.buttonList.get(i).setBackground(Color.white);
 		}
