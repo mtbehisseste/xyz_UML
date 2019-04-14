@@ -4,4 +4,6 @@ public class classAndCaseBase extends component {
 	public classAndCaseBase() {
 		
 	}
+	
+	protected void showPorts() {}
 }
