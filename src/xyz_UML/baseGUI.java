@@ -12,7 +12,7 @@ public class baseGUI {
 	public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
 	public ArrayList<component> allComponents = new ArrayList<component>();
 	public static String selectedBtnName;
-	
+
 	public baseGUI() {
 		JFrame frame = new JFrame("xyz");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -53,11 +53,11 @@ public class baseGUI {
 		container.add(canvas);
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(clickAtBlank(e.getX(), e.getY())) 
+				if (clickAtBlank(e.getX(), e.getY()))
 					allComponents.add(addInstance(canvas, selectedBtnName, e.getX(), e.getY()));
 			}
 		});
-		
+
 		frame.setVisible(true);
 
 	}
@@ -76,19 +76,19 @@ public class baseGUI {
 		case "classes":
 			return new classes(canvas, x, y);
 		case "use case":
-			return new use_case();
+			return new use_case(canvas, x, y);
 		default:
 			return null;
 		}
 	}
-	
+
 	private boolean clickAtBlank(int x, int y) {  // check if mouse clicks on a blank
-		for(int i=0; i<allComponents.size(); i++) {
+		for (int i = 0; i < allComponents.size(); i++) {
 			if (allComponents.get(i) != null &&
-				x >= allComponents.get(i).xmin && 
-				x <= allComponents.get(i).xmax && 
-				y >= allComponents.get(i).ymin && 
-				y <= allComponents.get(i).ymax)
+					x >= allComponents.get(i).xmin &&
+					x <= allComponents.get(i).xmax &&
+					y >= allComponents.get(i).ymin &&
+					y <= allComponents.get(i).ymax)
 				return false;
 		}
 		return true;
