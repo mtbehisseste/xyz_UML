@@ -2,8 +2,6 @@ package xyz_UML;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 
@@ -21,6 +19,8 @@ public class OvalShape extends JComponent {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.lightGray);
-        g.fillOval(x, y, width, height);
+        g.fillOval(x, y, width, height);  // internal of the oval
+        g.setColor(Color.black);
+        g.drawOval(x, y, width, height);  // border of the oval
     }
 }

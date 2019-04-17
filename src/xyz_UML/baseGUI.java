@@ -10,7 +10,8 @@ import javax.swing.*;
 public class baseGUI {
 	public static int sideButtonNum = 6;
 	public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
-	public ArrayList<component> allComponents = new ArrayList<component>();
+	public ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
+	private JPanel canvas = new JPanel();
 	public static String selectedBtnName;
 
 	public baseGUI() {
@@ -46,33 +47,36 @@ public class baseGUI {
 			container.add(tmpButton);
 		}
 
-		JPanel canvas = new JPanel();
 		canvas.setLayout(null);
 		canvas.setBounds(110, 20, 570, 520);
 		canvas.setBackground(Color.white);
 		container.add(canvas);
 		canvas.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (clickAtBlank(e.getX(), e.getY()))
-					allComponents.add(addInstance(canvas, selectedBtnName, e.getX(), e.getY()));
+			@Override
+			public void mouseClicked(MouseEvent e) {  // create new use_case or class
+				clickAction(e.getX(), e.getY());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {  // create lines
+				
 			}
 		});
 
 		frame.setVisible(true);
-
 	}
 
-	private component addInstance(JPanel canvas, String btnName, int x, int y) {
+	private classAndCaseBase addClassCase(JPanel canvas, String btnName, int x, int y) {
 		System.out.println(btnName);
 		switch (btnName) {
-		case "select":
-			return null;
-		case "association line":
-			return new association_line();
-		case "generation line":
-			return new generation_line();
-		case "composition line":
-			return new composition_line();
+//		case "select":
+//			return null;
+//		case "association line":
+//			return new association_line();
+//		case "generation line":
+//			return new generation_line();
+//		case "composition line":
+//			return new composition_line();
 		case "classes":
 			return new classes(canvas, x, y);
 		case "use case":
@@ -82,15 +86,26 @@ public class baseGUI {
 		}
 	}
 
-	private boolean clickAtBlank(int x, int y) {  // check if mouse clicks on a blank
-		for (int i = 0; i < allComponents.size(); i++) {
-			if (allComponents.get(i) != null &&
-					x >= allComponents.get(i).xmin &&
-					x <= allComponents.get(i).xmax &&
-					y >= allComponents.get(i).ymin &&
-					y <= allComponents.get(i).ymax)
-				return false;
+	private void clickAction(int x, int y) {
+		for (int i = 0; i < classCaseComponents.size(); i++) {
+			if (classCaseComponents.get(i) != null &&
+					x >= classCaseComponents.get(i).xmin &&
+					x <= classCaseComponents.get(i).xmax &&
+					y >= classCaseComponents.get(i).ymin &&
+					y <= classCaseComponents.get(i).ymax) {
+				hideAllPorts();
+				classCaseComponents.get(i).showPorts(this.canvas);
+				return;
+			}
 		}
-		return true;
+
+		// clicked at blank
+		classCaseComponents.add(addClassCase(this.canvas, selectedBtnName, x, y));
+	}
+	
+	private void hideAllPorts() {
+		for(int i=0; i<classCaseComponents.size(); i++) {
+			classCaseComponents.get(i).hidePorts(this.canvas);
+		}
 	}
 }
