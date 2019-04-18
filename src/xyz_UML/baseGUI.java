@@ -10,9 +10,10 @@ import javax.swing.*;
 public class baseGUI {
 	public static int sideButtonNum = 6;
 	public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
-	public ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
+	public static String selectedBtnName = "";
+	private ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
+	private classAndCaseBase selectedSingleComponent = new classAndCaseBase();
 	private JPanel canvas = new JPanel();
-	public static String selectedBtnName;
 
 	public baseGUI() {
 		JFrame frame = new JFrame("xyz");
@@ -59,53 +60,47 @@ public class baseGUI {
 
 			@Override
 			public void mousePressed(MouseEvent e) {  // create lines
-				
+
 			}
 		});
 
 		frame.setVisible(true);
 	}
 
-	private classAndCaseBase addClassCase(JPanel canvas, String btnName, int x, int y) {
-		System.out.println(btnName);
-		switch (btnName) {
-//		case "select":
-//			return null;
-//		case "association line":
-//			return new association_line();
-//		case "generation line":
-//			return new generation_line();
-//		case "composition line":
-//			return new composition_line();
-		case "classes":
-			return new classes(canvas, x, y);
-		case "use case":
-			return new use_case(canvas, x, y);
-		default:
-			return null;
-		}
-	}
-
 	private void clickAction(int x, int y) {
+		if (selectedBtnName == "")
+			return;
+
 		for (int i = 0; i < classCaseComponents.size(); i++) {
 			if (classCaseComponents.get(i) != null &&
 					x >= classCaseComponents.get(i).xmin &&
 					x <= classCaseComponents.get(i).xmax &&
 					y >= classCaseComponents.get(i).ymin &&
 					y <= classCaseComponents.get(i).ymax) {
-				hideAllPorts();
-				classCaseComponents.get(i).showPorts(this.canvas);
+				if (selectedBtnName == "select") {  // click on component and is in select mode
+					selectedSingleComponent.hidePorts(canvas);
+					classCaseComponents.get(i).showPorts(this.canvas);
+					selectedSingleComponent = classCaseComponents.get(i);
+				}
 				return;
 			}
 		}
 
 		// clicked at blank
+		System.out.println("blank");
+		selectedSingleComponent.hidePorts(canvas);
 		classCaseComponents.add(addClassCase(this.canvas, selectedBtnName, x, y));
 	}
-	
-	private void hideAllPorts() {
-		for(int i=0; i<classCaseComponents.size(); i++) {
-			classCaseComponents.get(i).hidePorts(this.canvas);
+
+	private classAndCaseBase addClassCase(JPanel canvas, String btnName, int x, int y) {
+//		System.out.println(btnName);
+		switch (btnName) {
+		case "classes":
+			return new classes(canvas, x, y);
+		case "use case":
+			return new use_case(canvas, x, y);
+		default:
+			return null;
 		}
 	}
 }

@@ -7,11 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class classAndCaseBase extends component {
-	private ArrayList<JLabel> portsArray = new ArrayList<JLabel>(4);
-
-	public classAndCaseBase() {
-
-	}
+	protected ArrayList<JLabel> portsArray = new ArrayList<JLabel>();
 
 	protected void showPorts(JPanel canvas) {
 		// order: north, east, south, west
@@ -36,14 +32,13 @@ public class classAndCaseBase extends component {
 	}
 
 	protected void hidePorts(JPanel canvas) {
-		for (int i = 0; i < portsArray.size(); i++) {
-			try {
-				canvas.remove(portsArray.get(i));
-			} catch (NullPointerException e) {
-				System.out.println(e);
-				continue;
-			}
+		System.out.println(this.portsArray.size());
+		for (int i = 0; i < this.portsArray.size(); i++) {
+			System.out.println(i);
+			canvas.remove(this.portsArray.get(i));
 		}
+		canvas.repaint();
+		portsArray.clear();
 	}
 
 }
