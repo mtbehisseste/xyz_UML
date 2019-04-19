@@ -1,5 +1,5 @@
 package xyz_UML;
 
-public class generation_line extends component {
+public class generation_line extends lines {
 
 }

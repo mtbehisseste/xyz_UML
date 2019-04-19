@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
 public class classes extends classAndCaseBase {
 	private ArrayList<JLabel> classesLabel = new ArrayList<JLabel>(3);
 
-	public classes(JPanel canvas, int x, int y) {
+	public classes(JLayeredPane canvas, int x, int y) {
 		super.xmin = x;
 		super.ymin = y;
 		super.xmax = x + 100;

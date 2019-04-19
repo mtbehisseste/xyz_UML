@@ -1,9 +1,9 @@
 package xyz_UML;
 
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
 public class use_case extends classAndCaseBase {
-	public use_case(JPanel canvas, int x, int y) {
+	public use_case(JLayeredPane canvas, int x, int y) {
 		super.xmin = x;
 		super.ymin = y;
 		super.xmax = x + 110;

@@ -1,5 +1,5 @@
 package xyz_UML;
 
-public class association_line extends component{
+public class association_line extends lines {
 
 }

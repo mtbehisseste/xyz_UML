@@ -1,5 +1,5 @@
 package xyz_UML;
 
-public class composition_line extends component {
+public class composition_line extends lines {
 
 }
