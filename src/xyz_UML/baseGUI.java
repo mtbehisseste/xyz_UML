@@ -9,6 +9,7 @@ import javax.swing.*;
 
 public class baseGUI {
 	public static int sideButtonNum = 6;
+	public int currentLayer = 0;
 	public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
 	public static String selectedBtnName = "";
 	private ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
@@ -24,10 +25,6 @@ public class baseGUI {
 		frame.setSize(700, 600);
 		frame.getContentPane().setBackground(Color.darkGray);
 		frame.setLayout(null);
-
-//		Container container = frame.getContentPane();
-//		container.setLayout(null);
-//		container.setBackground(null);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -74,11 +71,11 @@ public class baseGUI {
 			}
 		});
 //		canvas.addMouseMotionListener(new MouseAdapter() {
-////			@Override
-////			public void mouseDragged(MouseEvent e) {
-////				draggedPoints.add(e.getPoint());
-////				dragAction(e, e.getX(), e.getY());
-////			}
+//			@Override
+//			public void mouseDragged(MouseEvent e) {
+//				draggedPoints.add(e.getPoint());
+//				dragAction(e, e.getX(), e.getY());
+//			}
 //		});
 
 		frame.setVisible(true);
