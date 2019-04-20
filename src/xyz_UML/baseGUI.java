@@ -28,7 +28,7 @@ public class baseGUI {
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
 		JMenu editMenu = new JMenu("Edit");
 		JMenuItem editMenuGroup = new JMenuItem("Group");
