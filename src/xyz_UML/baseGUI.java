@@ -13,6 +13,7 @@ public class baseGUI {
     public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
     public static String selectedBtnName = "";
     private ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
+    private ArrayList<classAndCaseBase> selectedGroupComponents = new ArrayList<classAndCaseBase>();
     private classAndCaseBase selectedSingleComponent = new classAndCaseBase();
     private classAndCaseBase pressedComponent = new classAndCaseBase();
     private JLayeredPane canvas = new JLayeredPane();
@@ -87,11 +88,11 @@ public class baseGUI {
 
         if (selectedBtnName == "select") {
             classAndCaseBase currentClickedOnComponent = checkIfOnComponent(x, y);
+            hideAllPorts();  // hide current showing ports
+            
             if (currentClickedOnComponent == null) {  // blank
-                selectedSingleComponent.hidePorts(canvas);  // hide current showing ports
                 return;
             } else {
-                selectedSingleComponent.hidePorts(canvas);
                 currentClickedOnComponent.showPorts(this.canvas);
                 selectedSingleComponent = currentClickedOnComponent;
                 return;
@@ -102,36 +103,56 @@ public class baseGUI {
     }
 
     private void pressAction(int x, int y) {
+        classAndCaseBase tmpPressedComponent = checkIfOnComponent(x, y);
+
         if (selectedBtnName == "association line" ||
                 selectedBtnName == "generation line" ||
                 selectedBtnName == "composition line") {
-            classAndCaseBase tmpPressedComponent = checkIfOnComponent(x, y);
             if (tmpPressedComponent == null)
                 return;
-            else {
-                mousePressX = x;
-                mousePressY = y;
-                isDrawingLine = true;
+            else
                 pressedComponent = tmpPressedComponent;
-            }
         } else if (selectedBtnName == "select") {
+            hideAllPorts();
+            
+            if (tmpPressedComponent != null)  // click on components
+                return;
             // showDragRectangle
         }
+
+        mousePressX = x;
+        mousePressY = y;
+        isDrawingLine = true;
     }
 
     private void releaseAction(int x, int y) {
-        if (isDrawingLine) {
-            isDrawingLine = false;
-            classAndCaseBase releasedComponent = checkIfOnComponent(x, y);
-            if (releasedComponent == null)  // release at blank
-                return;
-            if (releasedComponent == pressedComponent)
-                return;
-            else {
-                new lines(this.canvas, selectedBtnName, mousePressX, mousePressY, x, y, pressedComponent,
-                        releasedComponent);
+        if (selectedBtnName == "association line" ||
+                selectedBtnName == "generation line" ||
+                selectedBtnName == "composition line") {
+            if (isDrawingLine) {
+                classAndCaseBase releasedComponent = checkIfOnComponent(x, y);
+                if (releasedComponent == null)  // release at blank
+                    return;
+                if (releasedComponent == pressedComponent)
+                    return;
+                else {
+                    new lines(this.canvas, selectedBtnName, mousePressX, mousePressY, x, y, pressedComponent,
+                            releasedComponent);
+                }
+            }
+        } else if (selectedBtnName == "select") {
+            for (int i = 0; i < classCaseComponents.size(); i++) {
+                if (mousePressX <= classCaseComponents.get(i).xmin &&
+                        mousePressY <= classCaseComponents.get(i).ymin &&
+                        x >= classCaseComponents.get(i).xmax &&
+                        y >= classCaseComponents.get(i).ymax) {
+                    classCaseComponents.get(i).showPorts(canvas);
+                    selectedGroupComponents.add(classCaseComponents.get(i));
+                }
             }
         }
+        
+        isDrawingLine = false;
     }
 
     private classAndCaseBase checkIfOnComponent(int x, int y) {  // check if (x,y) is within any component
@@ -155,6 +176,12 @@ public class baseGUI {
             default:
                 return null;
         }
+    }
+    
+    private void hideAllPorts() {
+        selectedSingleComponent.hidePorts(canvas);
+        for(int i=0; i<selectedGroupComponents.size(); i++)
+            selectedGroupComponents.get(i).hidePorts(canvas);
     }
 
 //	private void dragAction(MouseEvent e, int x, int y) {

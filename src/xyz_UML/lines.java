@@ -22,6 +22,8 @@ public class lines extends Component {
 
         switch (btnName) {
             case "association line":
+                tmpfirstConnectingPoint.setLocation(firstConnectingPoint.x,
+                        firstConnectingPoint.y);
                 break;
 
             case "generation line":
@@ -95,8 +97,6 @@ public class lines extends Component {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(1.5f));
                 g2.setColor(Color.black);
-//                g2.draw(new Line2D.Double(firstConnectingPoint.x, firstConnectingPoint.y,
-//                        secondConnectingPoint.x, secondConnectingPoint.y));
                 g2.draw(new Line2D.Double(tmpfirstConnectingPoint.x + 5, tmpfirstConnectingPoint.y + 5,
                         secondConnectingPoint.x, secondConnectingPoint.y));
             }
@@ -107,8 +107,7 @@ public class lines extends Component {
         canvas.repaint();
     }
 
-    private Point calcClosestPort(int x, int y, classAndCaseBase c, boolean isFirstComponent) {  // find which port to
-                                                                                                 // connect with
+    private Point calcClosestPort(int x, int y, classAndCaseBase c, boolean isFirstComponent) {  // find which port to connect with
         // order: north, east, south, west
         int[] xcoord = { c.xmin + (c.xmax - c.xmin) / 2, c.xmax, c.xmin + (c.xmax - c.xmin) / 2, c.xmin };
         int[] ycoord = { c.ymin, c.ymin + (c.ymax - c.ymin) / 2, c.ymax, c.ymin + (c.ymax - c.ymin) / 2 };
