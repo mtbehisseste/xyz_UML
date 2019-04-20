@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class classAndCaseBase extends Component {
+public class ClassAndCaseBase extends Component {
     protected ArrayList<JLabel> portsArray = new ArrayList<JLabel>();
 
     protected void showPorts(JLayeredPane canvas) {

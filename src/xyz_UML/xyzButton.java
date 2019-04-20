@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class xyzButton extends JButton {
+public class XYZButton extends JButton {
     private String btnName;
 
-    public xyzButton(String buttonName,
+    public XYZButton(String buttonName,
             ImageIcon icon,
             int x,
             int y,
@@ -29,15 +29,15 @@ public class xyzButton extends JButton {
         this.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 resetButtonColor();
-                xyzButton.this.setBackground(Color.gray);
-                baseGUI.selectedBtnName = xyzButton.this.btnName;
+                XYZButton.this.setBackground(Color.gray);
+                BaseGUI.selectedBtnName = XYZButton.this.btnName;
             }
         });
     }
 
     private void resetButtonColor() {  // reset color of all buttons when one is clicked
-        for (int i = 0; i < baseGUI.sideButtonNum; i++) {
-            baseGUI.buttonList.get(i).setBackground(Color.white);
+        for (int i = 0; i < BaseGUI.sideButtonNum; i++) {
+            BaseGUI.buttonList.get(i).setBackground(Color.white);
         }
     }
 }

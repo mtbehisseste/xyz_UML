@@ -1,40 +1,52 @@
 package xyz_UML;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class baseGUI {
+public class BaseGUI {
     public static int sideButtonNum = 6;
-    public int currentLayer = 0;
-    public static ArrayList<xyzButton> buttonList = new ArrayList<xyzButton>(sideButtonNum);
+    public static ArrayList<XYZButton> buttonList = new ArrayList<XYZButton>(sideButtonNum);
     public static String selectedBtnName = "";
-    private ArrayList<classAndCaseBase> classCaseComponents = new ArrayList<classAndCaseBase>();
-    private ArrayList<classAndCaseBase> selectedGroupComponents = new ArrayList<classAndCaseBase>();
-    private classAndCaseBase selectedSingleComponent = new classAndCaseBase();
-    private classAndCaseBase pressedComponent = new classAndCaseBase();
+
+    private JFrame frame = new JFrame("xyz");
     private JLayeredPane canvas = new JLayeredPane();
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenu fileMenu = new JMenu("File");
+    private JMenu editMenu = new JMenu("Edit");
+    private JMenuItem editMenuGroup = new JMenuItem("Group");
+    private JMenuItem editMenuUngroup = new JMenuItem("Ungroup");
+
+    private ArrayList<ClassAndCaseBase> classCaseComponents = new ArrayList<ClassAndCaseBase>();
+    private ArrayList<ClassAndCaseBase> selectedGroupComponents = new ArrayList<ClassAndCaseBase>();
+    private ArrayList<ArrayList<ClassAndCaseBase>> groupComponents = new ArrayList<ArrayList<ClassAndCaseBase>>();
+    private ClassAndCaseBase selectedSingleComponent = new ClassAndCaseBase();
+    private ClassAndCaseBase pressedComponent = new ClassAndCaseBase();
     private int mousePressX, mousePressY;
     private boolean isDrawingLine = false;
 
-    public baseGUI() {
-        JFrame frame = new JFrame("xyz");
+    public BaseGUI() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(700, 600);
         frame.getContentPane().setBackground(Color.darkGray);
         frame.setLayout(null);
 
-        JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
-        JMenu editMenu = new JMenu("Edit");
-        JMenuItem editMenuGroup = new JMenuItem("Group");
-        JMenuItem editMenuUngroup = new JMenuItem("Ungroup");
+        editMenuGroup.setEnabled(false);
+        editMenuGroup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setGroupComponents();
+            }
+        });
         editMenu.add(editMenuGroup);
+        editMenuUngroup.setEnabled(false);
         editMenu.add(editMenuUngroup);
         menuBar.add(editMenu);
 
@@ -43,7 +55,7 @@ public class baseGUI {
         String[] iconName = { "select.png", "association_line.png", "generation_line.png",
             "composition_line.png", "classes.png", "use_case.png" };
         for (int i = 0; i < sideButtonNum; i++) {  // add buttons
-            xyzButton tmpButton = new xyzButton(buttonName[i],
+            XYZButton tmpButton = new XYZButton(buttonName[i],
                     new ImageIcon(String.format("resource/%s", iconName[i])),
                     20, 20 + i * 90, 70, 70);
             buttonList.add(tmpButton);
@@ -71,13 +83,6 @@ public class baseGUI {
                 releaseAction(e.getX(), e.getY());
             }
         });
-//		canvas.addMouseMotionListener(new MouseAdapter() {
-//			@Override
-//			public void mouseDragged(MouseEvent e) {
-//				draggedPoints.add(e.getPoint());
-//				dragAction(e, e.getX(), e.getY());
-//			}
-//		});
 
         frame.setVisible(true);
     }
@@ -87,14 +92,20 @@ public class baseGUI {
             return;
 
         if (selectedBtnName == "select") {
-            classAndCaseBase currentClickedOnComponent = checkIfOnComponent(x, y);
+            ClassAndCaseBase currentClickedOnComponent = checkIfOnComponent(x, y);
+            ArrayList<ClassAndCaseBase> currentClickedOnGroup = checkIfInGroup(currentClickedOnComponent);
             hideAllPorts();  // hide current showing ports
-            
+
             if (currentClickedOnComponent == null) {  // blank
                 return;
             } else {
-                currentClickedOnComponent.showPorts(this.canvas);
-                selectedSingleComponent = currentClickedOnComponent;
+                if (currentClickedOnGroup != null) {
+                    for (int i = 0; i < currentClickedOnGroup.size(); i++)
+                        currentClickedOnGroup.get(i).showPorts(canvas);
+                } else {
+                    currentClickedOnComponent.showPorts(this.canvas);
+                    selectedSingleComponent = currentClickedOnComponent;
+                }
                 return;
             }
         } else {  // click on blank, add a component
@@ -103,7 +114,7 @@ public class baseGUI {
     }
 
     private void pressAction(int x, int y) {
-        classAndCaseBase tmpPressedComponent = checkIfOnComponent(x, y);
+        ClassAndCaseBase tmpPressedComponent = checkIfOnComponent(x, y);
 
         if (selectedBtnName == "association line" ||
                 selectedBtnName == "generation line" ||
@@ -113,8 +124,6 @@ public class baseGUI {
             else
                 pressedComponent = tmpPressedComponent;
         } else if (selectedBtnName == "select") {
-            hideAllPorts();
-            
             if (tmpPressedComponent != null)  // click on components
                 return;
             // showDragRectangle
@@ -126,21 +135,34 @@ public class baseGUI {
     }
 
     private void releaseAction(int x, int y) {
+        hideAllPorts();
         if (selectedBtnName == "association line" ||
                 selectedBtnName == "generation line" ||
                 selectedBtnName == "composition line") {
             if (isDrawingLine) {
-                classAndCaseBase releasedComponent = checkIfOnComponent(x, y);
+                ClassAndCaseBase releasedComponent = checkIfOnComponent(x, y);
                 if (releasedComponent == null)  // release at blank
                     return;
                 if (releasedComponent == pressedComponent)
                     return;
                 else {
-                    new lines(this.canvas, selectedBtnName, mousePressX, mousePressY, x, y, pressedComponent,
-                            releasedComponent);
+                    new Lines(this.canvas, selectedBtnName, mousePressX, mousePressY,
+                            x, y, pressedComponent, releasedComponent);
                 }
             }
         } else if (selectedBtnName == "select") {
+            // enable selection from every direction
+            if (mousePressX > x) {
+                int tmp = x;
+                x = mousePressX;
+                mousePressX = tmp;
+            }
+            if (mousePressY > y) {
+                int tmp = y;
+                y = mousePressY;
+                mousePressY = tmp;
+            }
+
             for (int i = 0; i < classCaseComponents.size(); i++) {
                 if (mousePressX <= classCaseComponents.get(i).xmin &&
                         mousePressY <= classCaseComponents.get(i).ymin &&
@@ -151,11 +173,12 @@ public class baseGUI {
                 }
             }
         }
-        
+
+        editMenuGroup.setEnabled(true);
         isDrawingLine = false;
     }
 
-    private classAndCaseBase checkIfOnComponent(int x, int y) {  // check if (x,y) is within any component
+    private ClassAndCaseBase checkIfOnComponent(int x, int y) {  // check if (x,y) is within any component
         for (int i = 0; i < classCaseComponents.size(); i++) {
             if (x >= classCaseComponents.get(i).xmin &&
                     x <= classCaseComponents.get(i).xmax &&
@@ -167,47 +190,50 @@ public class baseGUI {
         return null;
     }
 
-    private classAndCaseBase addClassCase(JLayeredPane canvas, String btnName, int x, int y) {
+    private ArrayList<ClassAndCaseBase> checkIfInGroup(ClassAndCaseBase c) {
+        if (c == null)
+            return null;
+
+        for (int i = 0; i < groupComponents.size(); i++) {
+            for (int j = 0; j < groupComponents.get(i).size(); j++) {
+                if (groupComponents.get(i).get(j) == c)
+                    return groupComponents.get(i);
+            }
+        }
+        return null;
+    }
+
+    private ClassAndCaseBase addClassCase(JLayeredPane canvas, String btnName, int x, int y) {
         switch (btnName) {
             case "classes":
-                return new classes(canvas, x, y);
+                return new Classes(canvas, x, y);
             case "use case":
-                return new use_case(canvas, x, y);
+                return new UseCase(canvas, x, y);
             default:
                 return null;
         }
     }
-    
+
     private void hideAllPorts() {
         selectedSingleComponent.hidePorts(canvas);
-        for(int i=0; i<selectedGroupComponents.size(); i++)
+        // when unselect by dragging
+        for (int i = 0; i < selectedGroupComponents.size(); i++)
             selectedGroupComponents.get(i).hidePorts(canvas);
+        selectedGroupComponents.clear();  // reset selected group
+
+        // when unselect by clicking at group component
+        for (int i = 0; i < groupComponents.size(); i++) {
+            for (int j = 0; j < groupComponents.get(i).size(); j++) {
+                groupComponents.get(i).get(j).hidePorts(canvas);
+            }
+        }
     }
 
-//	private void dragAction(MouseEvent e, int x, int y) {
-//		if (selectedBtnName == "association line" ||
-//				selectedBtnName == "generation line" ||
-//				selectedBtnName == "composition line") {
-//			showDragLine(e, x, y);
-//		} else if (selectedBtnName == "select") {
-//			// showDragRectangle
-//		}
-//	}
-
-//	private void showDragLine(MouseEvent e, int x, int y) {
-//		JPanel mouseDragLine = new JPanel() {
-//			@Override
-//			public void paint(Graphics g) {
-//				super.paint(g);
-//				g.setColor(Color.black);
-//				for(int i=0; i<draggedPoints.size(); i++) {					
-//					g.drawOval(draggedPoints.get(i).x, draggedPoints.get(i).y, 1, 1);
-//				}
-//			}
-//		};
-//		mouseDragLine.setBounds(0, 0, 570, 520);
-//		canvas.add(mouseDragLine);
-//		canvas.repaint();
-//	}
+    private void setGroupComponents() {
+        ArrayList<ClassAndCaseBase> tmpGroupComponents = new ArrayList<ClassAndCaseBase>();
+        for (int i = 0; i < selectedGroupComponents.size(); i++)
+            tmpGroupComponents.add(selectedGroupComponents.get(i));
+        groupComponents.add(0, tmpGroupComponents);
+    }
 
 }

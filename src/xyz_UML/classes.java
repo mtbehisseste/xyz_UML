@@ -7,10 +7,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class classes extends classAndCaseBase {
+public class Classes extends ClassAndCaseBase {
     private ArrayList<JLabel> classesLabel = new ArrayList<JLabel>(3);
 
-    public classes(JLayeredPane canvas, int x, int y) {
+    public Classes(JLayeredPane canvas, int x, int y) {
         super.xmin = x;
         super.ymin = y;
         super.xmax = x + 100;

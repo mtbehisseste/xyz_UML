@@ -11,11 +11,16 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class lines extends Component {
+public class Lines extends Component {
     private int chosenPortIndex;  // 0 for north, 1 for east, 2 for south, 3 for west
 
-    public lines(JLayeredPane canvas, String btnName, int firstx, int firsty, int secondx, int secondy,
-            classAndCaseBase firstComponent, classAndCaseBase secondComponent) {
+    public Lines(JLayeredPane canvas, String btnName, int firstx, int firsty, int secondx, int secondy,
+            ClassAndCaseBase firstComponent, ClassAndCaseBase secondComponent) {
+//        super.xmin = firstx < secondx ? firstx : secondx;
+//        super.ymin = firsty < secondy ? firsty : secondy;
+//        super.xmax = firstx > secondx ? firstx : secondx;
+//        super.ymax = firsty > secondy ? firsty : secondy;
+        
         Point firstConnectingPoint = calcClosestPort(firstx, firsty, firstComponent, true);
         Point secondConnectingPoint = calcClosestPort(secondx, secondy, secondComponent, false);
         Point tmpfirstConnectingPoint = new Point(); // restore the new first point on the line type
@@ -51,7 +56,7 @@ public class lines extends Component {
                 tmpfirstConnectingPoint.setLocation(firstConnectingPoint.x + gene_xoffset[chosenPortIndex],
                         firstConnectingPoint.y + gene_yoffset[chosenPortIndex]);
                 gene_lineType.setBounds(tmpfirstConnectingPoint.x, tmpfirstConnectingPoint.y, 10, 10);
-                canvas.add(gene_lineType, new Integer(10));
+                canvas.add(gene_lineType, 10);
                 break;
 
             case "composition line":
@@ -107,7 +112,7 @@ public class lines extends Component {
         canvas.repaint();
     }
 
-    private Point calcClosestPort(int x, int y, classAndCaseBase c, boolean isFirstComponent) {  // find which port to connect with
+    private Point calcClosestPort(int x, int y, ClassAndCaseBase c, boolean isFirstComponent) {  // find which port to connect with
         // order: north, east, south, west
         int[] xcoord = { c.xmin + (c.xmax - c.xmin) / 2, c.xmax, c.xmin + (c.xmax - c.xmin) / 2, c.xmin };
         int[] ycoord = { c.ymin, c.ymin + (c.ymax - c.ymin) / 2, c.ymax, c.ymin + (c.ymax - c.ymin) / 2 };
