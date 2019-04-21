@@ -18,13 +18,28 @@ public class Classes extends ClassAndCaseBase {
 
         for (int i = 0; i < 3; i++) {
             JLabel tmpLabel = new JLabel();
-            tmpLabel.setBounds(x, y + i * 40, 100, 40);
             tmpLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             tmpLabel.setOpaque(true);
             tmpLabel.setBackground(Color.white);
             classesLabel.add(tmpLabel);
-            canvas.add(tmpLabel);
-            canvas.repaint();
+            canvas.add(tmpLabel, new Integer(0));
+        }
+        paintMyComponents(canvas);
+    }
+
+    @Override
+    protected void paintMyComponents(JLayeredPane canvas) {
+        for (int i = 0; i < 3; i++) {
+            classesLabel.get(i).setBounds(super.xmin, super.ymin + i * 40, 100, 40);
+        }
+        moveComponentFront(canvas);
+        canvas.repaint();
+    }
+
+    @Override
+    protected void moveComponentFront(JLayeredPane canvas) {
+        for (int i = 0; i < 3; i++) {
+            canvas.moveToFront(classesLabel.get(i));
         }
     }
 }

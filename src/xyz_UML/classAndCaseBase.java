@@ -2,11 +2,12 @@ package xyz_UML;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class ClassAndCaseBase extends Component {
+public class ClassAndCaseBase extends XYZComponent {
     protected ArrayList<JLabel> portsArray = new ArrayList<JLabel>();
 
     protected void showPorts(JLayeredPane canvas) {
@@ -26,7 +27,7 @@ public class ClassAndCaseBase extends Component {
             tmpPortLabel.setOpaque(true);
             tmpPortLabel.setBackground(Color.black);
             portsArray.add(tmpPortLabel);
-            canvas.add(tmpPortLabel, new Integer(3));
+            canvas.add(tmpPortLabel, new Integer(1));
         }
         canvas.repaint();
     }
@@ -37,5 +38,8 @@ public class ClassAndCaseBase extends Component {
         canvas.repaint();
         portsArray.clear();
     }
-
+    
+    protected void moveComponentFront(JLayeredPane canvas) {
+        
+    }
 }
