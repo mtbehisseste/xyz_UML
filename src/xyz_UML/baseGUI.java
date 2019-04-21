@@ -47,6 +47,12 @@ public class BaseGUI {
         });
         editMenu.add(editMenuGroup);
         editMenuUngroup.setEnabled(false);
+        editMenuUngroup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rmGroupComponents();
+            }
+        });
         editMenu.add(editMenuUngroup);
         menuBar.add(editMenu);
 
@@ -91,6 +97,7 @@ public class BaseGUI {
         if (selectedBtnName == "")
             return;
 
+        editMenuUngroup.setEnabled(false);
         if (selectedBtnName == "select") {
             ClassAndCaseBase currentClickedOnComponent = checkIfOnComponent(x, y);
             ArrayList<ClassAndCaseBase> currentClickedOnGroup = checkIfInGroup(currentClickedOnComponent);
@@ -99,10 +106,13 @@ public class BaseGUI {
             if (currentClickedOnComponent == null) {  // blank
                 return;
             } else {
-                if (currentClickedOnGroup != null) {
-                    for (int i = 0; i < currentClickedOnGroup.size(); i++)
+                if (currentClickedOnGroup != null) {  // click on group components
+                    editMenuUngroup.setEnabled(true);
+                    for (int i = 0; i < currentClickedOnGroup.size(); i++) {
                         currentClickedOnGroup.get(i).showPorts(canvas);
-                } else {
+                        selectedGroupComponents.add(currentClickedOnGroup.get(i));
+                    }
+                } else {  // click on single component
                     currentClickedOnComponent.showPorts(this.canvas);
                     selectedSingleComponent = currentClickedOnComponent;
                 }
@@ -136,6 +146,8 @@ public class BaseGUI {
 
     private void releaseAction(int x, int y) {
         hideAllPorts();
+        editMenuUngroup.setEnabled(false);
+
         if (selectedBtnName == "association line" ||
                 selectedBtnName == "generation line" ||
                 selectedBtnName == "composition line") {
@@ -236,4 +248,11 @@ public class BaseGUI {
         groupComponents.add(0, tmpGroupComponents);
     }
 
+    private void rmGroupComponents() {
+        System.out.println(groupComponents.size());
+        for (int i = 0; i < groupComponents.size(); i++) {
+            if (groupComponents.get(i).equals(selectedGroupComponents))
+                groupComponents.remove(0);
+        }
+    }
 }

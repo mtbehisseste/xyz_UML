@@ -20,7 +20,7 @@ public class Lines extends Component {
 //        super.ymin = firsty < secondy ? firsty : secondy;
 //        super.xmax = firstx > secondx ? firstx : secondx;
 //        super.ymax = firsty > secondy ? firsty : secondy;
-        
+
         Point firstConnectingPoint = calcClosestPort(firstx, firsty, firstComponent, true);
         Point secondConnectingPoint = calcClosestPort(secondx, secondy, secondComponent, false);
         Point tmpfirstConnectingPoint = new Point(); // restore the new first point on the line type
@@ -102,6 +102,10 @@ public class Lines extends Component {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(1.5f));
                 g2.setColor(Color.black);
+                if (btnName == "association line") {  // adjusting the connecting point of association lines
+                    tmpfirstConnectingPoint.x -= 5;
+                    tmpfirstConnectingPoint.y -= 5;
+                }
                 g2.draw(new Line2D.Double(tmpfirstConnectingPoint.x + 5, tmpfirstConnectingPoint.y + 5,
                         secondConnectingPoint.x, secondConnectingPoint.y));
             }
