@@ -58,7 +58,7 @@ public class Lines extends XYZComponent {
                         g2.drawPolygon(gene_trianglex[firstChosenPortIndex], gene_triangley[firstChosenPortIndex], 3);
                     }
                 };
-                canvas.add(geneLineTypeShape, new Integer(2));
+                canvas.add(geneLineTypeShape, new Integer(1));
                 break;
 
             case "composition line":
@@ -73,7 +73,7 @@ public class Lines extends XYZComponent {
                         g2.drawPolygon(compos_dimandx, compos_dimandy, 4);
                     }
                 };
-                canvas.add(composLineTypeShape, new Integer(2));
+                canvas.add(composLineTypeShape, new Integer(1));
                 break;
 
             default:
@@ -82,12 +82,12 @@ public class Lines extends XYZComponent {
         drawFirstComponentPort = new JLabel();
         drawFirstComponentPort.setOpaque(true);
         drawFirstComponentPort.setBackground(Color.black);
-        canvas.add(drawFirstComponentPort, new Integer(0));
+        canvas.add(drawFirstComponentPort, new Integer(1));
 
         drawSecondComponentPort = new JLabel();
         drawSecondComponentPort.setOpaque(true);
         drawSecondComponentPort.setBackground(Color.black);
-        canvas.add(drawSecondComponentPort, new Integer(0));
+        canvas.add(drawSecondComponentPort, new Integer(1));
 
         lineInstance = new JComponent() {  // draw line itself
             @Override
@@ -105,7 +105,7 @@ public class Lines extends XYZComponent {
                 }
             }
         };
-        canvas.add(lineInstance, new Integer(0));
+        canvas.add(lineInstance, new Integer(1));
 
         paintMyComponents(canvas);
     }
@@ -134,6 +134,10 @@ public class Lines extends XYZComponent {
 
     @Override
     protected void paintMyComponents(JLayeredPane canvas) {
+//        canvas.moveToFront(lineInstance);
+//        canvas.moveToFront(drawFirstComponentPort);
+//        canvas.moveToFront(drawSecondComponentPort);
+        
         firstConnectingPoint = getPortCoord(firstComponent, firstChosenPortIndex);
         secondConnectingPoint = getPortCoord(secondComponent, secondChosenPortIndex);
         if (lineType == "generation line" || lineType == "composition line") {
@@ -144,15 +148,16 @@ public class Lines extends XYZComponent {
         }
 
         drawFirstComponentPort.setBounds(firstConnectingPoint.x - 5, firstConnectingPoint.y - 5, 10, 10);
-        canvas.moveToFront(drawFirstComponentPort);
         drawSecondComponentPort.setBounds(secondConnectingPoint.x - 5, secondConnectingPoint.y - 5, 10, 10);
-        canvas.moveToFront(drawSecondComponentPort);
-        if (lineType == "generation line")
+        if (lineType == "generation line") {
             geneLineTypeShape.setBounds(adjustedFirstConnectingPoint.x, adjustedFirstConnectingPoint.y, 10, 10);
-        else if (lineType == "composition line")
+//            canvas.moveToFront(geneLineTypeShape);
+        }
+        else if (lineType == "composition line") {
             composLineTypeShape.setBounds(adjustedFirstConnectingPoint.x, adjustedFirstConnectingPoint.y, 10, 10);
+//            canvas.moveToFront(composLineTypeShape);
+        }
         lineInstance.setBounds(0, 0, 570, 520);
-        canvas.moveToFront(lineInstance);
 
         canvas.repaint();
     }

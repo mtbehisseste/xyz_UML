@@ -27,7 +27,7 @@ public class ClassAndCaseBase extends XYZComponent {
             tmpPortLabel.setOpaque(true);
             tmpPortLabel.setBackground(Color.black);
             portsArray.add(tmpPortLabel);
-            canvas.add(tmpPortLabel, new Integer(1));
+            canvas.add(tmpPortLabel, new Integer(2));
         }
         canvas.repaint();
     }

@@ -19,14 +19,15 @@ public class BaseGUI {
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu = new JMenu("File");
     private JMenu editMenu = new JMenu("Edit");
+//    private JMenuItem fileMenuNew = new JMenuItem("New");
     private JMenuItem editMenuGroup = new JMenuItem("Group");
     private JMenuItem editMenuUngroup = new JMenuItem("Ungroup");
     private JMenuItem editMenuChangeName = new JMenuItem("Change Object Name");
 
     private ArrayList<ClassAndCaseBase> classCaseComponents = new ArrayList<ClassAndCaseBase>();
     private ArrayList<ClassAndCaseBase> selectedGroupComponents = new ArrayList<ClassAndCaseBase>();
-    private ArrayList<ArrayList<ClassAndCaseBase>> groupComponents = new ArrayList<ArrayList<ClassAndCaseBase>>();
     private ArrayList<Lines> lineComponents = new ArrayList<Lines>();
+    private ArrayList<ArrayList<ClassAndCaseBase>> groupComponents = new ArrayList<ArrayList<ClassAndCaseBase>>();
     private ClassAndCaseBase selectedSingleComponent = new ClassAndCaseBase();
     private ClassAndCaseBase pressedComponent = new ClassAndCaseBase();
     private int mousePressX, mousePressY;
@@ -36,9 +37,27 @@ public class BaseGUI {
         frame.setSize(700, 600);
         frame.getContentPane().setBackground(Color.darkGray);
         frame.setLayout(null);
-
         frame.setJMenuBar(menuBar);
+        
+//        fileMenuNew.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {  // remove all components
+//                editMenuGroup.setEnabled(false);
+//                editMenuUngroup.setEnabled(false);
+//                editMenuChangeName.setEnabled(false);
+//                classCaseComponents.clear();
+//                selectedGroupComponents.clear();
+//                lineComponents.clear();
+//                groupComponents.clear();
+//                selectedSingleComponent = null;
+//                pressedComponent = null;
+//                canvas.removeAll();
+//                canvas.repaint();
+//            }
+//        });
+//        fileMenu.add(fileMenuNew);
         menuBar.add(fileMenu);
+        
         editMenuGroup.setEnabled(false);
         editMenuGroup.addActionListener(new ActionListener() {
             @Override
@@ -150,6 +169,7 @@ public class BaseGUI {
     private void releaseAction(int x, int y) {
         hideAllPorts();
         editMenuUngroup.setEnabled(false);
+        editMenuChangeName.setEnabled(false);
 
         if (selectedBtnName == "association line" ||
                 selectedBtnName == "generation line" ||
@@ -261,7 +281,8 @@ public class BaseGUI {
 
     private void hideAllPorts() {
         editMenuGroup.setEnabled(false);
-        selectedSingleComponent.hidePorts(canvas);
+        if(selectedSingleComponent != null)
+            selectedSingleComponent.hidePorts(canvas);
         // when unselect by dragging
         for (int i = 0; i < selectedGroupComponents.size(); i++)
             selectedGroupComponents.get(i).hidePorts(canvas);
