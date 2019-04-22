@@ -21,6 +21,7 @@ public class BaseGUI {
     private JMenu editMenu = new JMenu("Edit");
     private JMenuItem editMenuGroup = new JMenuItem("Group");
     private JMenuItem editMenuUngroup = new JMenuItem("Ungroup");
+    private JMenuItem editMenuChangeName = new JMenuItem("Change Object Name");
 
     private ArrayList<ClassAndCaseBase> classCaseComponents = new ArrayList<ClassAndCaseBase>();
     private ArrayList<ClassAndCaseBase> selectedGroupComponents = new ArrayList<ClassAndCaseBase>();
@@ -54,6 +55,16 @@ public class BaseGUI {
             }
         });
         editMenu.add(editMenuUngroup);
+        editMenuChangeName.setEnabled(false);
+        editMenuChangeName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object objectName = JOptionPane.showInputDialog(null, "Enter object name:", "Change Object Name", 0, null, null, "");
+                if (objectName != null)
+                    selectedSingleComponent.changeName(objectName.toString());
+            }
+        });
+        editMenu.add(editMenuChangeName);
         menuBar.add(editMenu);
 
         String[] buttonName = { "select", "association line", "generation line",
@@ -97,6 +108,7 @@ public class BaseGUI {
         if (selectedBtnName == "")
             return;
 
+        editMenuChangeName.setEnabled(false);
         editMenuUngroup.setEnabled(false);
         if (selectedBtnName == "select") {
             ClassAndCaseBase currentClickedOnComponent = checkIfOnComponent(x, y);
@@ -105,7 +117,7 @@ public class BaseGUI {
 
             if (currentClickedOnComponent == null)  // blank
                 return;
-                
+
             if (currentClickedOnGroup != null) {  // click on group components
                 editMenuUngroup.setEnabled(true);
                 for (int i = 0; i < currentClickedOnGroup.size(); i++) {
@@ -115,14 +127,15 @@ public class BaseGUI {
                     selectedGroupComponents.add(currentClickedOnGroup.get(i));
                 }
             } else {  // click on single component
+                editMenuChangeName.setEnabled(true);
                 currentClickedOnComponent.moveComponentFront(canvas);
                 switchTopComponentToArraylistHead(currentClickedOnComponent);
                 currentClickedOnComponent.showPorts(this.canvas);
                 selectedSingleComponent = currentClickedOnComponent;
             }
             return;
-        } else {  
-            if(checkIfOnComponent(x, y) != null)
+        } else {
+            if (checkIfOnComponent(x, y) != null)
                 return;
             classCaseComponents.add(addClassCase(this.canvas, selectedBtnName, x, y));  // click on blank, add a component
         }
@@ -275,9 +288,9 @@ public class BaseGUI {
                 groupComponents.remove(i);
         }
     }
-    
+
     private void switchTopComponentToArraylistHead(ClassAndCaseBase c) {
-        for(int i=0; i<classCaseComponents.size(); i++) {
+        for (int i = 0; i < classCaseComponents.size(); i++) {
             if (classCaseComponents.get(i).equals(c)) {
                 classCaseComponents.remove(i);
                 classCaseComponents.add(0, c);

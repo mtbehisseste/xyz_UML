@@ -82,12 +82,12 @@ public class Lines extends XYZComponent {
         drawFirstComponentPort = new JLabel();
         drawFirstComponentPort.setOpaque(true);
         drawFirstComponentPort.setBackground(Color.black);
-        canvas.add(drawFirstComponentPort, new Integer(2));
+        canvas.add(drawFirstComponentPort, new Integer(0));
 
         drawSecondComponentPort = new JLabel();
         drawSecondComponentPort.setOpaque(true);
         drawSecondComponentPort.setBackground(Color.black);
-        canvas.add(drawSecondComponentPort, new Integer(2));
+        canvas.add(drawSecondComponentPort, new Integer(0));
 
         lineInstance = new JComponent() {  // draw line itself
             @Override
@@ -105,7 +105,7 @@ public class Lines extends XYZComponent {
                 }
             }
         };
-        canvas.add(lineInstance);
+        canvas.add(lineInstance, new Integer(0));
 
         paintMyComponents(canvas);
     }
@@ -144,12 +144,15 @@ public class Lines extends XYZComponent {
         }
 
         drawFirstComponentPort.setBounds(firstConnectingPoint.x - 5, firstConnectingPoint.y - 5, 10, 10);
+        canvas.moveToFront(drawFirstComponentPort);
         drawSecondComponentPort.setBounds(secondConnectingPoint.x - 5, secondConnectingPoint.y - 5, 10, 10);
+        canvas.moveToFront(drawSecondComponentPort);
         if (lineType == "generation line")
             geneLineTypeShape.setBounds(adjustedFirstConnectingPoint.x, adjustedFirstConnectingPoint.y, 10, 10);
         else if (lineType == "composition line")
             composLineTypeShape.setBounds(adjustedFirstConnectingPoint.x, adjustedFirstConnectingPoint.y, 10, 10);
         lineInstance.setBounds(0, 0, 570, 520);
+        canvas.moveToFront(lineInstance);
 
         canvas.repaint();
     }

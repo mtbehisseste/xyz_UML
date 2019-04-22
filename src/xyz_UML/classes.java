@@ -1,11 +1,13 @@
 package xyz_UML;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.SwingConstants;
 
 public class Classes extends ClassAndCaseBase {
     private ArrayList<JLabel> classesLabel = new ArrayList<JLabel>(3);
@@ -41,5 +43,12 @@ public class Classes extends ClassAndCaseBase {
         for (int i = 0; i < 3; i++) {
             canvas.moveToFront(classesLabel.get(i));
         }
+    }
+    
+    @Override
+    protected void changeName(String name) {
+        classesLabel.get(0).setFont(new Font(null, 0, 15));
+        classesLabel.get(0).setText(name);
+        classesLabel.get(0).setHorizontalAlignment(JLabel.CENTER);
     }
 }

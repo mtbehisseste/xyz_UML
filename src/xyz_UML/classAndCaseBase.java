@@ -42,4 +42,8 @@ public class ClassAndCaseBase extends XYZComponent {
     protected void moveComponentFront(JLayeredPane canvas) {
         
     }
+    
+    protected void changeName(String name) {
+        
+    }
 }
