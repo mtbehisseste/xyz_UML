@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class BaseGUI {
+public class BaseGUI { 
     public static int sideButtonNum = 6;
     public static ArrayList<XYZButton> buttonList = new ArrayList<XYZButton>(sideButtonNum);
     public static String selectedBtnName = "";

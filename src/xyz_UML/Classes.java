@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingConstants;
 
-public class Classes extends ClassAndCaseBase {
+public class Classes extends ClassAndCaseBase { 
     private ArrayList<JLabel> classesLabel = new ArrayList<JLabel>(3);
 
     public Classes(JLayeredPane canvas, int x, int y) {

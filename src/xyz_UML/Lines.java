@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class Lines extends XYZComponent {
+public class Lines extends XYZComponent { 
     private int firstChosenPortIndex;  // 0 for north, 1 for east, 2 for south, 3 for west
     private int secondChosenPortIndex;
     private String lineType = "";

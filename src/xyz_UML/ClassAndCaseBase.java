@@ -7,7 +7,7 @@ import java.util.IllegalFormatCodePointException;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class ClassAndCaseBase extends XYZComponent {
+public class ClassAndCaseBase extends XYZComponent { 
     protected ArrayList<JLabel> portsArray = new ArrayList<JLabel>();
 
     protected void showPorts(JLayeredPane canvas) {

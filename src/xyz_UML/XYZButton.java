@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class XYZButton extends JButton {
+public class XYZButton extends JButton { 
     private String btnName;
 
     public XYZButton(String buttonName,
