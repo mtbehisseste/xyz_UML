@@ -153,11 +153,12 @@ public class BaseGUI {
                 selectedSingleComponent = currentClickedOnComponent;
             }
             return;
-        } else {
+        } else if (selectedBtnName == "classes" || selectedBtnName == "use case") {
             if (checkIfOnComponent(x, y) != null)
                 return;
             classCaseComponents.add(addClassCase(this.canvas, selectedBtnName, x, y));  // click on blank, add a component
-        }
+        } else 
+            return;
     }
 
     private void pressAction(int x, int y) {
