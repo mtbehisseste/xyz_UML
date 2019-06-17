@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import buttons.ButtonPanel;
 import mode.BasicMode;
 
 public class EditorFrame {

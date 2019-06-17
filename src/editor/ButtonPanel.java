@@ -1,4 +1,4 @@
-package buttons;
+package editor;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import buttons.AssociationButton;
+import buttons.BasicButton;
+import buttons.ClassButton;
+import buttons.CompositionButton;
+import buttons.GenerationButton;
+import buttons.SelectButton;
+import buttons.UseCaseButton;
 
 public class ButtonPanel extends JPanel {
     public int sideButtonNumber = 0;

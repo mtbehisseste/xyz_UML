@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import editor.ButtonPanel;
+
 public class BasicButton extends JButton {
     public BasicButton(ImageIcon icon, int x, int y, int width, int height) {
         this.setBounds(x, y, width, height);
