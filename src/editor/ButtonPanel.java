@@ -26,7 +26,7 @@ public class ButtonPanel extends JPanel {
 
         int btnWidth = 70;
         int btnHeight = 70;
-        int x = 20;
+        int x = 20;  // x and y position of the button on the ButtonPanel
         int y = 20;
 
         selectBtn = new SelectButton(new ImageIcon("resource/select.png"), x, y, btnWidth, btnHeight);

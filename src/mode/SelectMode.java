@@ -20,7 +20,7 @@ public class SelectMode extends BasicMode {
             int mouseReleaseX, int mouseReleaseY) {
         if (pressedComponent == null) {  // block selection
             canvas.hideAllPorts();
-            
+
             // enable selection from every direction
             if (mousePressX > mouseReleaseX) {
                 int tmp = mouseReleaseX;
@@ -47,7 +47,7 @@ public class SelectMode extends BasicMode {
                 EditorFrame.setEditMenuGroup(false);  // disable grouping when only one component selected
         } else {
             if (pressedComponent == releasedComponent) {  // click
-                EditorFrame.canvasClickAction();
+                EditorFrame.canvasReleaseAction();
                 clickAction(canvas, pressedComponent, mousePressX, mousePressY);
                 canvas.selectedComponent = pressedComponent;
             } else {  // moving objects

@@ -9,7 +9,6 @@ public class UseCaseButton extends BasicButton {
 
     public UseCaseButton(ImageIcon icon, int x, int y, int width, int height) {
         super(icon, x, y, width, height);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

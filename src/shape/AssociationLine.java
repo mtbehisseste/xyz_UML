@@ -35,7 +35,6 @@ public class AssociationLine extends BasicLine {
     @Override
     public void paintMyComponents(Canvas canvas) {
         super.paintMyComponents(canvas);
-//        adjustedFirstConnectingPoint.setLocation(firstConnectingPoint.x, firstConnectingPoint.y);  // TODO check if bug happens here
         lineInstance.setBounds(0, 0, canvasWidth, canvasHeight);
 
         canvas.repaint();

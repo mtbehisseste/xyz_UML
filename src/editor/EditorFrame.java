@@ -71,11 +71,6 @@ public class EditorFrame {
         frame.setVisible(true);
     }
 
-    public static void canvasClickAction() {
-        editMenuChangeName.setEnabled(false);
-        editMenuUngroup.setEnabled(false);
-    }
-
     public static void setCurrentMode(BasicMode m) {
         canvas.currentMode = m;
     }

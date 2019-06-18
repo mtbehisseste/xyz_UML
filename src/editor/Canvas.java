@@ -17,7 +17,7 @@ public class Canvas extends JLayeredPane {
     public ArrayList<BasicObj> objectComponents = new ArrayList<BasicObj>();  // all objects on the canvas
     public ArrayList<BasicLine> lineComponents = new ArrayList<BasicLine>();  // all lines on the canvas
     public ArrayList<BasicObj> selectedGroupComponents = new ArrayList<BasicObj>();
-    public BasicMode currentMode = null;
+    public static BasicMode currentMode = null;
     public BasicObj selectedComponent;
     private ArrayList<ArrayList<BasicObj>> groupComponents = new ArrayList<ArrayList<BasicObj>>();
     private BasicObj pressedComponent;
