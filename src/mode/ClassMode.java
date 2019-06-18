@@ -10,8 +10,7 @@ public class ClassMode extends BasicMode {
         if (currentClickedOnComponent != null)  // click on instance
             return;
 
-        ClassesObj classObj = new ClassesObj(canvas, x, y);
-        canvas.objectComponents.add(classObj);
+        canvas.objectComponents.add(new ClassesObj(canvas, x, y));
     }
 
     @Override

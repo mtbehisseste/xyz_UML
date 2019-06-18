@@ -10,8 +10,7 @@ public class UseCaseMode extends BasicMode {
         if (currentClickedOnComponent != null)  // click on other instance
             return;
 
-        UseCaseObj useCase = new UseCaseObj(canvas, x, y);
-        canvas.objectComponents.add(useCase);
+        canvas.objectComponents.add(new UseCaseObj(canvas, x, y));
     }
 
     @Override

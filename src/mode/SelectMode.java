@@ -46,7 +46,9 @@ public class SelectMode extends BasicMode {
             if (canvas.selectedGroupComponents.size() == 1)
                 EditorFrame.setEditMenuGroup(false);  // disable grouping when only one component selected
         } else {
-            if (pressedComponent == releasedComponent) {  // click
+            if (pressedComponent == releasedComponent 
+                    && mousePressX == mouseReleaseX
+                    && mousePressY == mouseReleaseY) {  // click
                 EditorFrame.canvasReleaseAction();
                 clickAction(canvas, pressedComponent, mousePressX, mousePressY);
                 canvas.selectedComponent = pressedComponent;
