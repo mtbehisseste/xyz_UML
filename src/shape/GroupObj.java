@@ -10,21 +10,6 @@ public class GroupObj extends BasicObj {
 
     public GroupObj(ArrayList<BasicObj> objOfGroup) {
         groupList = (ArrayList<BasicObj>) objOfGroup.clone();
-
-//        xmin = 10000;
-//        ymin = 10000;
-//        xmax = 0;
-//        ymax = 0;
-//        for (int i = 0; i < groupList.size(); i++) {  // get the bounds for the group
-//            if (groupList.get(i).xmin < xmin)
-//                xmin = groupList.get(i).xmin;
-//            if (groupList.get(i).ymin < ymin)
-//                ymin = groupList.get(i).ymin;
-//            if (groupList.get(i).xmax > xmax)
-//                xmax = groupList.get(i).xmax;
-//            if (groupList.get(i).ymax > ymax)
-//                ymax = groupList.get(i).ymax;
-//        }
     }
 
     @Override

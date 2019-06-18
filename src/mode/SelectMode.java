@@ -19,6 +19,8 @@ public class SelectMode extends BasicMode {
     public void releaseAction(Canvas canvas, BasicObj pressedComponent, BasicObj releasedComponent, int mousePressX, int mousePressY,
             int mouseReleaseX, int mouseReleaseY) {
         if (pressedComponent == null) {  // block selection
+            canvas.hideAllPorts();
+            
             // enable selection from every direction
             if (mousePressX > mouseReleaseX) {
                 int tmp = mouseReleaseX;

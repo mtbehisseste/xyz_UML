@@ -47,9 +47,9 @@ public class EditorFrame {
         editMenuChangeName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                Object objectName = JOptionPane.showInputDialog(null, "Enter object name:", "Change Object Name", 0, null, null, "");
-//                if (objectName != null)
-//                    selectedSingleComponent.changeName(objectName.toString());
+                Object objectName = JOptionPane.showInputDialog(null, "Enter object name:", "Change Object Name", 0, null, null, "");
+                if (objectName != null)
+                    canvas.selectedComponent.changeName(objectName.toString());
             }
         });
         editMenu.add(editMenuChangeName);
