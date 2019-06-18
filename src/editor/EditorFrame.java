@@ -72,7 +72,7 @@ public class EditorFrame {
     }
 
     public static void setCurrentMode(BasicMode m) {
-        canvas.currentMode = m;
+        Canvas.currentMode = m;
     }
 
     public static int getSideButtonNumber() {
