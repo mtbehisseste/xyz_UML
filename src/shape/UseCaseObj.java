@@ -62,7 +62,7 @@ public class UseCaseObj extends BasicObj {
 
     @Override
     public void select(Canvas canvas) {
-        EditorFrame.editMenuChangeName.setEnabled(true);
+        EditorFrame.setEditMenuChangeName(true);
         moveComponentFront(canvas);
         canvas.switchTopComponentToArraylistHead(this);
         showPorts(canvas);

@@ -26,7 +26,7 @@ public class GroupObj extends BasicObj {
 
     @Override
     public void select(Canvas canvas) {  // actions when group object is selected
-        EditorFrame.editMenuUngroup.setEnabled(true);  // TODO if selecting groups using block selecting, might have problems here
+        EditorFrame.setEditMenuUngroup(true);  // TODO if selecting groups using block selecting, might have problems here
         for (int i = 0; i < groupList.size(); i++) {
             groupList.get(i).moveComponentFront(canvas);
             groupList.get(i).showPorts(canvas);

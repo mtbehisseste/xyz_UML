@@ -14,12 +14,11 @@ import shape.GroupObj;
 import shape.BasicLine;
 
 public class Canvas extends JLayeredPane {
+    public static BasicMode currentMode = null;
     public ArrayList<BasicObj> objectComponents = new ArrayList<BasicObj>();  // all objects on the canvas
     public ArrayList<BasicLine> lineComponents = new ArrayList<BasicLine>();  // all lines on the canvas
-    public ArrayList<BasicObj> selectedGroupComponents = new ArrayList<BasicObj>();
-    public static BasicMode currentMode = null;
+    public ArrayList<BasicObj> selectedGroupComponents = new ArrayList<BasicObj>();  // saves the objects selected by block selection
     public BasicObj selectedComponent;
-    private ArrayList<ArrayList<BasicObj>> groupComponents = new ArrayList<ArrayList<BasicObj>>();
     private BasicObj pressedComponent;
     private BasicObj releaseComponent;
     private int mousePressX, mousePressY, mouseReleaseX, mouseReleaseY;
@@ -57,7 +56,8 @@ public class Canvas extends JLayeredPane {
         mouseReleaseX = x;
         mouseReleaseY = y;
         hideAllPorts();
-        EditorFrame.canvasReleaseAction();
+        EditorFrame.setEditMenuUngroup(false);
+        EditorFrame.setEditMenuChangeName(false);
 
         releaseComponent = checkIfOnComponent(x, y);
         currentMode.releaseAction(this, pressedComponent, releaseComponent, mousePressX, mousePressY, mouseReleaseX, mouseReleaseY);
@@ -79,13 +79,6 @@ public class Canvas extends JLayeredPane {
         for (int i = 0; i < selectedGroupComponents.size(); i++)
             selectedGroupComponents.get(i).hidePorts(this);
         selectedGroupComponents.clear();  // reset selected group
-
-        // when unselect by clicking at group component
-        for (int i = 0; i < groupComponents.size(); i++) {
-            for (int j = 0; j < groupComponents.get(i).size(); j++) {
-                groupComponents.get(i).get(j).hidePorts(this);
-            }
-        }
     }
 
     public void setGroupComponents() {

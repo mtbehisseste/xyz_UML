@@ -1,59 +1,20 @@
 package editor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 import mode.BasicMode;
 
 public class EditorFrame {
     private JFrame frame = new JFrame("xyz");
-    private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu = new JMenu("File");
-    private JMenu editMenu = new JMenu("Edit");
+    private static MenuBar menuBar = new MenuBar();
     public static ButtonPanel buttonPanel = new ButtonPanel();
     public static Canvas canvas = new Canvas();
-    public static JMenuItem editMenuGroup = new JMenuItem("Group");
-    public static JMenuItem editMenuUngroup = new JMenuItem("Ungroup");
-    public static JMenuItem editMenuChangeName = new JMenuItem("Change Object Name");
 
     public EditorFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
         frame.setJMenuBar(menuBar);
-        menuBar.add(fileMenu);
-
-        editMenuGroup.setEnabled(false);
-        editMenuGroup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                canvas.setGroupComponents();
-            }
-        });
-        editMenu.add(editMenuGroup);
-
-        editMenuUngroup.setEnabled(false);
-        editMenuUngroup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                canvas.rmGroupComponents();
-            }
-        });
-        editMenu.add(editMenuUngroup);
-
-        editMenuChangeName.setEnabled(false);
-        editMenuChangeName.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object objectName = JOptionPane.showInputDialog(null, "Enter object name:", "Change Object Name", 0, null, null, "");
-                if (objectName != null)
-                    canvas.selectedComponent.changeName(objectName.toString());
-            }
-        });
-        editMenu.add(editMenuChangeName);
-        menuBar.add(editMenu);
 
         int buttonPanelWidth = 20 + 70 + 20;
         int buttonPanelHeight = 20 + (70 + 20) * buttonPanel.sideButtonNumber;
@@ -74,17 +35,34 @@ public class EditorFrame {
     public static void setCurrentMode(BasicMode m) {
         Canvas.currentMode = m;
     }
+    
+    public static void menuSetGroupComponents() {
+        canvas.setGroupComponents();
+    }
+    
+    public static void menuRmGroupComponents() {
+        canvas.rmGroupComponents();
+    }
+    
+    public static void menuChangeName() {
+        Object objectName = JOptionPane.showInputDialog(null, "Enter object name:", "Change Object Name", 0, null, null, "");
+        if (objectName != null)
+            canvas.selectedComponent.changeName(objectName.toString());
+    }
 
     public static int getSideButtonNumber() {
         return buttonPanel.sideButtonNumber;
     }
 
-    public static void canvasReleaseAction() {
-        editMenuUngroup.setEnabled(false);
-        editMenuChangeName.setEnabled(false);
-    }
-
     public static void setEditMenuGroup(boolean b) {
-        editMenuGroup.setEnabled(b);
+        menuBar.editMenuGroup.setEnabled(b);
+    }
+    
+    public static void setEditMenuUngroup(boolean b) {
+        menuBar.editMenuUngroup.setEnabled(b);
+    }
+    
+    public static void setEditMenuChangeName(boolean b) {
+        menuBar.editMenuChangeName.setEnabled(b);
     }
 }

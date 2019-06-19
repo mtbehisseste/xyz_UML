@@ -49,7 +49,8 @@ public class SelectMode extends BasicMode {
             if (pressedComponent == releasedComponent 
                     && mousePressX == mouseReleaseX
                     && mousePressY == mouseReleaseY) {  // click
-                EditorFrame.canvasReleaseAction();
+                EditorFrame.setEditMenuUngroup(false);
+                EditorFrame.setEditMenuChangeName(false);
                 clickAction(canvas, pressedComponent, mousePressX, mousePressY);
                 canvas.selectedComponent = pressedComponent;
             } else {  // moving objects
