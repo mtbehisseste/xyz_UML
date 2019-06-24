@@ -1,7 +1,7 @@
 # XYZ UML Editor
 A simple UML editor with basic objects (classes and use cases), and several types of relation lines (association, generation, composition).  
 This is the term project of the course "Object-Oriented Analysis and Design"(2019, ncu).  
-The project is meant to practice for the object-oriented design including extension, polymorphism, encapsulation, etc.   
+The project is meant to practice for the object-oriented design including inheritance, polymorphism, encapsulation, etc.   
 A good software design should try to seperate core code from GUI or unsolid part.  
 
 ### screenshot
