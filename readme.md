@@ -13,3 +13,4 @@ A good software design should try to seperate core code from GUI or unsolid part
 - objects select
 - grouping objects
 
+For details please check out the project [spec](https://github.com/mtbehisseste/xyz_UML/blob/master/OOAD%20Case%20Study%20in%20Chinese.pdf).
